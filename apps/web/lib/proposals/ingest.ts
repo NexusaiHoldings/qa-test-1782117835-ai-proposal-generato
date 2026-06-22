@@ -12,8 +12,6 @@
  */
 
 import { buildDb } from "@/lib/db";
-import { buildEventBus } from "@/lib/events";
-import { handleRegisterFile } from "@nexus/files-and-media";
 import { evaluateRetrievalQuality } from "./eval-harness";
 
 // OpenAI embedding model specified in tech stack.
@@ -153,36 +151,6 @@ export async function createCaseStudy(params: CreateCaseStudyParams): Promise<st
     params.uploadedBy,
   );
   return rows[0].id;
-}
-
-/**
- * Register a PDF file with @nexus/files-and-media and return the file_id.
- */
-export async function registerPdfFile(params: {
-  userId: string;
-  filename: string;
-  mimeType: string;
-  sizeBytes: number;
-  storageKey: string;
-}): Promise<string | null> {
-  const db = buildDb();
-  const events = buildEventBus();
-  const result = await handleRegisterFile(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    { db: db as any, events: events as any },
-    {
-      user_id: params.userId,
-      filename: params.filename,
-      mime_type: params.mimeType,
-      size_bytes: params.sizeBytes,
-      storage_key: params.storageKey,
-    },
-  );
-  if (result.status === 201 && result.body && typeof result.body === "object") {
-    const body = result.body as { file_id?: string };
-    return body.file_id ?? null;
-  }
-  return null;
 }
 
 /**
