@@ -51,7 +51,6 @@ function cosineSimilarity(a: number[], b: number[]): number {
  * chunk embeddings as a proxy for embedding quality.
  */
 async function computeCoherenceScore(
-  caseStudyId: string,
   sampleChunks: ChunkRow[],
 ): Promise<number> {
   const embeddings = sampleChunks
@@ -148,7 +147,7 @@ export async function evaluateRetrievalQuality(
   const otherCount = parseInt(otherStudies[0]?.cnt ?? "0", 10);
 
   if (otherCount === 0) {
-    return computeCoherenceScore(caseStudyId, sampleChunks);
+    return computeCoherenceScore(sampleChunks);
   }
   return computeDiscriminationScore(caseStudyId, orgId, sampleChunks);
 }
