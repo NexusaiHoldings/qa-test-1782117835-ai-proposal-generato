@@ -32,7 +32,6 @@
     "@nexus/files-and-media": "*",
     "@nexus/developer-surface": "*",
     "@nexus/social-and-engagement": "*",
-    "@nexus-substrate/runtime-client": "*",
-    "pdf-parse": "^1.1.1"
+    "@nexus-substrate/runtime-client": "*"
   }
 }
