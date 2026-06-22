@@ -32,6 +32,10 @@
     "@nexus/files-and-media": "*",
     "@nexus/developer-surface": "*",
     "@nexus/social-and-engagement": "*",
-    "@nexus-substrate/runtime-client": "*"
+    "@nexus-substrate/runtime-client": "*",
+    "docx": "^8.5.0",
+    "@tiptap/react": "^2.4.0",
+    "@tiptap/pm": "^2.4.0",
+    "@tiptap/starter-kit": "^2.4.0"
   }
 }
