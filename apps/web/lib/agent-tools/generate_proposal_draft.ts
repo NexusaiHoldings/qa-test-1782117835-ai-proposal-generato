@@ -47,9 +47,8 @@ export async function handleGenerateProposalDraft(
 
   if (!proposalId || !rfpRequirements) {
     return {
-      ok: false,
       status: 400,
-      error: "proposal_id and rfp_requirements are required",
+      body: "proposal_id and rfp_requirements are required",
     };
   }
 
@@ -59,9 +58,8 @@ export async function handleGenerateProposalDraft(
     embedding = await embedText(rfpRequirements);
   } catch (e) {
     return {
-      ok: false,
       status: 502,
-      error: `Embedding service unavailable: ${String(e)}`,
+      body: `Embedding service unavailable: ${String(e)}`,
     };
   }
 
@@ -71,9 +69,8 @@ export async function handleGenerateProposalDraft(
     chunks = await retrieveTopChunks(ctx, embedding, 3);
   } catch (e) {
     return {
-      ok: false,
       status: 500,
-      error: `Case study retrieval failed: ${String(e)}`,
+      body: `Case study retrieval failed: ${String(e)}`,
     };
   }
 
@@ -83,9 +80,8 @@ export async function handleGenerateProposalDraft(
     sections = await generateProposalSections(rfpRequirements, clientName, chunks);
   } catch (e) {
     return {
-      ok: false,
       status: 502,
-      error: `Proposal generation failed: ${String(e)}`,
+      body: `Proposal generation failed: ${String(e)}`,
     };
   }
 
@@ -94,16 +90,14 @@ export async function handleGenerateProposalDraft(
     await upsertProposalGenerated(ctx, proposalId, sections);
   } catch (e) {
     return {
-      ok: false,
       status: 500,
-      error: `Failed to save proposal: ${String(e)}`,
+      body: `Failed to save proposal: ${String(e)}`,
     };
   }
 
   return {
-    ok: true,
     status: 200,
-    data: {
+    body: {
       proposal_id: proposalId,
       sections,
       retrieved_chunks: chunks.length,
