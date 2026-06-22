@@ -58,8 +58,8 @@ async function getSessionUser(
 
   const body =
     typeof result.body === "string"
-      ? (JSON.parse(result.body) as SessionUser)
-      : (result.body as SessionUser);
+      ? (JSON.parse(result.body) as unknown as SessionUser)
+      : (result.body as unknown as SessionUser);
 
   return body;
 }
@@ -151,7 +151,7 @@ export async function GET(
 
   const fileName = `proposal-${id.slice(0, 8)}.docx`;
 
-  return new NextResponse(buffer, {
+  return new NextResponse(new Uint8Array(buffer), {
     status: 200,
     headers: {
       "Content-Type":
